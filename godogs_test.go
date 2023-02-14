@@ -76,14 +76,20 @@ func InitializeTestSuite(ctx *godog.TestSuiteContext) {
 	ctx.BeforeSuite(func() { Godogs = 0 })
 }
 
+func shouldBuyGoDogs(buy int) {
+	Godogs += buy
+}
+
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Before(func(ctx context.Context, sc *godog.Scenario) (context.Context, error) {
 		Godogs = 0 // clean the state before every scenario
 		return ctx, nil
 	})
 
-	ctx.Step(`^there are (\d+) godogs$`, thereAreGodogs)
+	ctx.Step(`^there are (\d+) mango$`, thereAreGodogs)
 	ctx.Step(`^I eat (\d+)$`, iEat)
 	ctx.Step(`^there should be (\d+) remaining$`, thereShouldBeRemaining)
 	ctx.Step(`^there should be none remaining$`, thereShouldBeNoneRemaining)
+	ctx.Step(`^I Bought (\d+) mango`, shouldBuyGoDogs)
+
 }
