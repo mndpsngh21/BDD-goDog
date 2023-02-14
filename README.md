@@ -65,3 +65,11 @@ MainFolder
 - godogs_test.go
 - godog.go
 </pre>
+
+## Run Test
+
+<pre>
+Run code from main folder
+    godog run 
+
+<pre>
