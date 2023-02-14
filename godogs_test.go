@@ -33,7 +33,7 @@ func TestFeatures(t *testing.T) {
 	o.TestingT = t
 
 	status := godog.TestSuite{
-		Name:                 "godogs",
+		Name:                 "Mangoes",
 		Options:              &o,
 		TestSuiteInitializer: InitializeTestSuite,
 		ScenarioInitializer:  InitializeScenario,
@@ -48,22 +48,22 @@ func TestFeatures(t *testing.T) {
 	}
 }
 
-func thereAreGodogs(available int) error {
-	Godogs = available
+func thereAreMangoes(available int) error {
+	Mangoes = available
 	return nil
 }
 
 func iEat(num int) error {
-	if Godogs < num {
-		return fmt.Errorf("you cannot eat %d godogs, there are %d available", num, Godogs)
+	if Mangoes < num {
+		return fmt.Errorf("you cannot eat %d mangoes, there are %d available", num, Mangoes)
 	}
-	Godogs -= num
+	Mangoes -= num
 	return nil
 }
 
 func thereShouldBeRemaining(remaining int) error {
-	if Godogs != remaining {
-		return fmt.Errorf("expected %d godogs to be remaining, but there is %d", remaining, Godogs)
+	if Mangoes != remaining {
+		return fmt.Errorf("expected %d mangoes to be remaining, but there is %d", remaining, Mangoes)
 	}
 	return nil
 }
@@ -73,23 +73,28 @@ func thereShouldBeNoneRemaining() error {
 }
 
 func InitializeTestSuite(ctx *godog.TestSuiteContext) {
-	ctx.BeforeSuite(func() { Godogs = 0 })
+	ctx.BeforeSuite(func() { Mangoes = 0 })
 }
 
 func shouldBuyGoDogs(buy int) {
-	Godogs += buy
+	Mangoes += buy
+}
+
+func removeBadMangoes(badMangoes int) {
+	Mangoes -= badMangoes
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Before(func(ctx context.Context, sc *godog.Scenario) (context.Context, error) {
-		Godogs = 0 // clean the state before every scenario
+		Mangoes = 0 // clean the state before every scenario
 		return ctx, nil
 	})
 
-	ctx.Step(`^there are (\d+) mango$`, thereAreGodogs)
+	ctx.Step(`^there are (\d+) mangoes$`, thereAreMangoes)
 	ctx.Step(`^I eat (\d+)$`, iEat)
 	ctx.Step(`^there should be (\d+) remaining$`, thereShouldBeRemaining)
 	ctx.Step(`^there should be none remaining$`, thereShouldBeNoneRemaining)
-	ctx.Step(`^I Bought (\d+) mango`, shouldBuyGoDogs)
+	ctx.Step(`^I Bought (\d+) mangoes`, shouldBuyGoDogs)
+	ctx.Step(`^Found Bad (\d+) mangoes`, removeBadMangoes)
 
 }

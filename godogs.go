@@ -1,7 +1,7 @@
 package main
 
 // Godogs available to eat
-var Godogs int
+var Mangoes int
 
 func main() {
 
